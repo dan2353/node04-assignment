@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <title>Cars Table</title>
+
+  <style>
+
+    body{
+      background-color: black;
+      color: white;
+      font-family: Arial;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 80%;
+    }
+
+    th, td {
+      border: 1px solid gray;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th{
+      background-color: lightgray;
+      color: black;
+    }
+
+    button {
+      margin-right: 5px;
+      padding: 5px;
+    }
+
+    th:last-child,
+    td:last-child {
+      width: 170px;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <h1>Cars Table</h1>
+
+  <p>
+    Click delete to delete a row.
+  </p>
+
+  <p>
+    Click update to update a row.
+  </p>
+
+  <table>
+
+    <thead>
+
+      <tr>
+
+        <th>Brand</th>
+        <th>Year</th>
+        <th>Make</th>
+        <th>Color</th>
+        <th>Action</th>
+
+      </tr>
+
+    </thead>
+
+    <tbody id="carsTable"></tbody>
+
+  </table>
+
+  <script>
+
+    function loadCars() {
+
+      fetch("/api/cars")
+
+      .then(response => response.json())
+
+      .then(cars => {
+
+        let table = document.getElementById("carsTable");
+
+        table.innerHTML = "";
+
+        cars.forEach(car => {
+
+          table.innerHTML += `
+
+            <tr>
+
+              <td>${car.brand}</td>
+
+              <td>${car.year}</td>
+
+              <td>${car.make}</td>
+
+              <td>${car.color}</td>
+
+              <td>
+
+                <button onclick="deleteCar(${car.id})">
+                  delete
+                </button>
+
+                <button onclick="updateCar(${car.id})">
+                  update
+                </button>
+
+              </td>
+
+            </tr>
+
+          `;
+
+        });
+
+      });
+
+    }
+
+    function deleteCar(id) {
+
+      fetch(`/api/cars/${id}`, {
+
+        method: "DELETE"
+
+      })
+
+      .then(response => response.json())
+
+      .then(data => {
+
+        alert("Car deleted successfully");
+
+        loadCars();
+
+      });
+
+    }
+
+    function updateCar(id) {
+
+      let newBrand = prompt("Enter new brand");
+
+      let newYear = prompt("Enter new year");
+
+      let newMake = prompt("Enter new make");
+
+      let newColor = prompt("Enter new color");
+
+      fetch(`/api/cars/${id}`, {
+
+        method: "PUT",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+          brand: newBrand,
+          year: Number(newYear),
+          make: newMake,
+          color: newColor
+
+        })
+
+      })
+
+      .then(response => response.json())
+
+      .then(data => {
+
+        alert("Car updated successfully");
+
+        loadCars();
+
+      });
+
+    }
+
+    loadCars();
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "node04-assignment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dan2353/node04-assignment.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dan2353/node04-assignment/issues"
+  },
+  "homepage": "https://github.com/dan2353/node04-assignment#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
